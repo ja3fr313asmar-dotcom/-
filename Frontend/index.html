@@ -1,0 +1,229 @@
+
+<!DOCTYPE html_content = "" >
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الأصالة - منيو إلكتروني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ===== صفحة الترحيب ===== -->
+    <div class="welcome-page" id="welcomePage">
+        <div class="floating-icons">
+            <i class="fas fa-utensils" style="top:10%; left:10%; animation-delay:0s;"></i>
+            <i class="fas fa-pizza-slice" style="top:20%; right:15%; animation-delay:1s;"></i>
+            <i class="fas fa-hamburger" style="bottom:20%; left:20%; animation-delay:2s;"></i>
+            <i class="fas fa-coffee" style="bottom:15%; right:10%; animation-delay:3s;"></i>
+            <i class="fas fa-ice-cream" style="top:40%; left:5%; animation-delay:1.5s;"></i>
+            <i class="fas fa-wine-glass" style="top:60%; right:5%; animation-delay:2.5s;"></i>
+        </div>
+        <div class="welcome-content">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop" alt="مطعم الأصالة" class="welcome-image">
+            <h1 class="welcome-title" id="restaurantName">مطعم الأصالة</h1>
+<p class="welcome-subtitle">تجربة طعام فريدة بأصالة التراث</p>
+<p class="welcome-description" id="restaurantDescription">
+    نقدم لكم أشهى المأكولات التقليدية والعصرية بأجود المكونات وتحت إشراف أمهر الطباخين. 
+    اكتشفوا نكهات لا تُنسى في أجواء راقية.
+</p>
+            <button class="btn-primary" onclick="showCategories()">
+                <i class="fas fa-book-open"></i>
+                تصفح المنيو
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== شريط التنقل ===== -->
+    <nav class="navbar" id="navbar" style="display:none;">
+        <div class="nav-brand" onclick="showCategories()">
+            <i class="fas fa-utensils"></i>
+            <span>مطعم الأصالة</span>
+        </div>
+        <div class="nav-actions">
+            <!-- زر القائمة الرئيسية محذوف -->
+            <button class="btn-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-basket"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== صفحة التصنيفات ===== -->
+    <div class="page" id="categoriesPage">
+        <div class="categories-container">
+            <button class="back-nav-btn" onclick="goBack()" id="catBackBtn" style="display:none;">
+                <i class="fas fa-arrow-right"></i>
+                رجوع
+            </button>
+            <h2 class="section-title">قائمة الطعام</h2>
+            <p class="section-subtitle">اختر التصنيف المفضل لديك</p>
+            <div class="categories-grid" id="categoriesGrid"></div>
+        </div>
+    </div>
+
+    <!-- ===== صفحة الأصناف ===== -->
+    <div class="page" id="itemsPage">
+        <div class="items-container">
+            <button class="back-nav-btn" onclick="goBack()">
+                <i class="fas fa-arrow-right"></i>
+                العودة للتصنيفات
+            </button>
+            <h2 class="section-title" id="itemsTitle"></h2>
+            <div class="items-grid" id="itemsGrid"></div>
+        </div>
+    </div>
+
+    <!-- ===== سلة الطلبات ===== -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 class="cart-title">
+                <i class="fas fa-shopping-basket"></i>
+                سلة الطلبات
+            </h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-basket"></i>
+                <p>السلة فارغة</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">المجموع:</span>
+                <span class="cart-total-value" id="cartTotal">0 ل.س</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="showOrderForm()" disabled>
+                <i class="fas fa-paper-plane"></i>
+                إرسال الطلب
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== نموذج ملاحظة الوجبة ===== -->
+    <div class="note-modal" id="noteModal">
+        <div class="note-form">
+            <h3 class="note-form-title">ملاحظة</h3>
+            <p class="note-form-item" id="noteItemName"></p>
+            <div class="form-group">
+                <label class="form-label">اكتب ملاحظتك</label>
+                <textarea class="form-input form-textarea" id="itemNoteInput" placeholder="اكتب ملاحظتك هنا..."></textarea>
+            </div>
+            <div class="form-actions">
+                <button class="btn-secondary" onclick="closeNoteModal()">إلغاء</button>
+                <button class="btn-submit" onclick="saveItemNote()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== نموذج الطلب الكامل ===== -->
+    <div class="order-modal" id="orderModal">
+        <div class="order-form">
+            <h2 class="form-title">إتمام الطلب</h2>
+            
+            <div class="form-group">
+                <label class="form-label">رقم الطاولة *</label>
+                <input type="number" class="form-input" id="tableNumber" placeholder="أدخل رقم الطاولة">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">طريقة الدفع *</label>
+                <div class="payment-methods">
+                    <div class="payment-option" onclick="selectPayment('cash')">
+                        <input type="radio" name="payment" id="payCash" value="cash">
+                        <i class="fas fa-money-bill-wave payment-icon"></i>
+                        <label for="payCash">دفع كاش</label>
+                    </div>
+                    <div class="payment-option" onclick="selectPayment('shamcash')">
+                        <input type="radio" name="payment" id="payShamCash" value="shamcash">
+                        <i class="fas fa-mobile-alt payment-icon"></i>
+                        <label for="payShamCash">شام كاش</label>
+                    </div>
+
+  
+                </div>
+            </div>
+
+            <!-- تفاصيل الدفع الإلكتروني -->
+            <div class="payment-details" id="shamcashDetails">
+                <div class="form-group">
+                    <label class="form-label">رقم حساب شام كاش *</label>
+                    <input type="text" class="form-input" id="shamcashNumber" placeholder="09xxxxxxxx">
+                </div>
+            </div>
+
+            <div class="payment-details" id="fouriDetails">
+                <div class="form-group">
+                    <label class="form-label">رقم حساب فوري *</label>
+                    <input type="text" class="form-input" id="fouriNumber" placeholder="أدخل رقم حساب فوري">
+                </div>
+            </div>
+
+            <div class="payment-details" id="bankDetails">
+                <div class="form-group">
+                    <label class="form-label">اسم البنك *</label>
+                    <select class="form-input" id="bankName">
+                        <option value="">اختر البنك</option>
+                        <option value="commercial">البنك التجاري السوري</option>
+                        <option value="syria">بنك سوريا الدولي الإسلامي</option>
+                        <option value="alsham">بنك الشام</option>
+                        <option value="bemo">بنك بيمو السعودي الفرنسي</option>
+                        <option value="byblos">بنك بيبلوس</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رقم الحساب *</label>
+                    <input type="text" class="form-input" id="bankAccount" placeholder="أدخل رقم الحساب البنكي">
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <div class="order-summary-title">ملخص الطلب:</div>
+                <div id="orderSummaryItems"></div>
+                <div class="order-summary-item" style="border-top:1px solid #ddd; margin-top:0.5rem; padding-top:0.5rem; font-weight:700;">
+                    <span>المجموع الكلي:</span>
+                    <span id="orderSummaryTotal">0 ل.س</span>
+                </div>
+            </div>
+
+            <div class="delivery-time" id="deliveryTimeBox">
+                <i class="fas fa-clock"></i>
+                <div class="delivery-time-text" id="deliveryTimeText">وقت التجهيز: --</div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-secondary" onclick="closeOrderForm()">إلغاء</button>
+                <button class="btn-submit" onclick="submitOrder()">
+                    <i class="fas fa-check"></i>
+                    تأكيد الطلب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== رسالة النجاح ===== -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h3 class="success-title">تم إرسال الطلب بنجاح!</h3>
+        <p class="success-text">سيتم تحضير طلبك في أقرب وقت</p>
+        <div class="success-details" id="successDetails"></div>
+        <button class="btn-primary" onclick="resetApp()">
+            <i class="fas fa-home"></i>
+            العودة للرئيسية
+        </button>
+    </div>
+
+   <script src="js/index.js"></script>
+</body>
+</html>'''
